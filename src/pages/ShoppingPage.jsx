@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import ProductCard from "../components/shopping/ProductCard";
 import { PRODUCTS, CATEGORIES } from "../data/products";
@@ -93,27 +93,39 @@ export default function ShoppingPage({ user, onLogout }) {
           </div>
         </section>
 
-        {/* Products Grid */}
+        {/* Products Placeholder Grid */}
         <section className="products-section">
           <div className="products-header">
-            <h2>Featured Products ({filteredProducts.length})</h2>
+            <h2>Products</h2>
+            <span className="placeholder-status-badge">Catalog Placeholder</span>
           </div>
 
-          {filteredProducts.length === 0 ? (
-            <div className="no-products">
-              <p>No products found matching your search.</p>
-            </div>
-          ) : (
-            <div className="products-grid">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAddToCart={handleAddToCart}
-                />
-              ))}
-            </div>
-          )}
+          <div className="products-grid">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <div key={index} className="product-card product-card-skeleton">
+                <div className="product-image-box skeleton-box">
+                  <div className="skeleton-image-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.35">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="product-info">
+                  <div className="skeleton-line skeleton-title"></div>
+                  <div className="skeleton-line skeleton-subtitle"></div>
+                  <div className="skeleton-line skeleton-rating"></div>
+
+                  <div className="product-footer">
+                    <div className="skeleton-line skeleton-price"></div>
+                    <div className="skeleton-btn"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
       </main>
 
