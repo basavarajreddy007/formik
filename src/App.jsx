@@ -1,21 +1,25 @@
-﻿import { useState } from "react";
-import Login from "./Login";
-import Register from "./Register";
+import { useState } from "react";
+import AuthPage from "./pages/AuthPage";
+import ShoppingPage from "./pages/ShoppingPage";
 
 export default function App() {
-  const [page, setPage] = useState("login");
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("currentUser");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
-  if (page === "login") {
-    return (
-      <Login
-        onSwitchToRegister={() => setPage("register")}
-      />
-    );
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null);
+  };
+
+  if (currentUser) {
+    return <ShoppingPage user={currentUser} onLogout={handleLogout} />;
   }
 
-  return (
-    <Register
-      onSwitchToLogin={() => setPage("login")}
-    />
-  );
+  return <AuthPage onLoginSuccess={setCurrentUser} />;
 }
